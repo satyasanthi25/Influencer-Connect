@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Campaign</title>
+</head>
+<body>
+    <h1>{{ campaign.name }}</h1>
+    <p>Description: {{ campaign.description }}</p>
+    <p>Category: {{ campaign.category }}</p>
+    <p>Budget: {{ campaign.budget }}</p>
+    <p>Status: {{ campaign.status }}</p>
+    <p>Visibility: {{ campaign.visibility }}</p>
+    <p>Start Date: {{ campaign.start_date }}</p>
+    <p>End Date: {{ campaign.end_date }}</p>
+    <p>Goal: {{ campaign.goal }}</p>
+
+    <h2>Ad Requests</h2>
+    {% if ad_requests %}
+        <ul>
+            {% for ad in ad_requests %}
+                <li>
+                    <h3>{{ ad.ad_name }}</h3>
+                    <p>Description: {{ ad.ad_description }}</p>
+                    <p>Reach: {{ ad.reach }}</p>
+                    <p>Payment Amount: {{ ad.payment_amount }}</p>
+                    <p>Status: {{ ad.ad_status }}</p>
+                    <p>Rating: {{ ad.rating }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No ad requests found for this campaign.</p>
+    {% endif %}  
+    <a href="{{ url_for('sponsor_dashboard',sponsor_id=campaign.sponsor_id) }}">Back to Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Campaign
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+        .display-1 {
+            color: #343a40;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFDODO;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .form input, .form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        .form input[type="date"] {
+            padding: 5px;
+        }
+        .form button {
+            width: 48%;
+            margin-top: 10px;
+        }
+        .form .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+        .form .btn-success:hover {
+            background-color: #218838;
+        }
+        .form .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            float: right;
+        }
+        .form .btn-danger:hover {
+            background-color: #c82333;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-1">Add Campaign</h1>
+    <form action="{{ url_for('add_campaign', id=id) }}" method="post" class="form">
+        <div class="form-group">
+            <label for="name">Campaign Name:</label>
+            <input type="text" id="name" name="name" class="form-control" required maxlength="30">
+            
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="budget">Budget:</label>
+            <input type="number" id="budget" name="budget" class="form-control" min="100" max="1000000" required>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" name="status" class="form-control">
+                <option value="active" selected>Active</option>
+                <option value="pending">Pending</option>
+                
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="visibility">Visibility:</label>
+            <select id="visibility" name="visibility" class="form-control">
+                <option value="public" selected>Public</option>
+                <option value="private">Private</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="goal">Goal:</label>
+            <input type="number" id="goal" name="goal" class="form-control">
+        </div>
+              
+        <div class="form-group d-flex justify-content-between">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-plus"></i> Add
+            </button>
+            <button type="reset" class="btn btn-danger">
+                <i class="fas fa-times"></i> Reset
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

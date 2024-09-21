@@ -1,0 +1,55 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #b6e7c1;
+}
+
+.container {
+    max-width: 1200px; /* Increase the max-width to make the container larger */
+    margin: 0 auto;
+}
+
+h1 {
+    color: #740606;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.card-header {
+    background-color: #b4b4e6;
+    color: rgb(93, 46, 4);
+    font-weight: bold;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: #d6bcbc;
+    border: 5px solid #796e6e;
+    table-layout: auto; /* Ensure the table takes full width */
+}
+
+.table th, .table td {
+    padding: 15px; /* Increase padding for more space inside cells */
+}
+
+.table th {
+    background-color: #839fbe;
+    color: rgb(67, 7, 19);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #8db8e4;
+    border-color: brown;
+}
+
+.table td {
+    word-wrap: break-word; /* Ensure long content wraps inside cells */
+}
+
+.actions button {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin: 0 5px;
+}

@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Delete Adrequest
+{% endblock %}
+
+{% block content %}
+
+<h1 class="display-1">
+    Delete Adrequest
+</h1>
+    <p>Are you sure you want to delete the ad request "{{ adrequest.ad_name }}"?</p>
+<form action="{{ url_for('delete_adrequest',id=adrequest.id) }}" method="post" class="form">
+    <button type="submit" class="btn btn-danger">
+        <i class="fas fa-trash    "></i>
+        Delete
+    </button>
+</form>
+
+{% endblock %}

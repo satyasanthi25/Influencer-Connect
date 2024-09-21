@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Campaign</title>
+</head>
+<body>
+    <h1>{{ campaign.name }}</h1>
+    <p>Description: {{ campaign.description }}</p>
+    <p>Category: {{ campaign.category }}</p>
+    <p>Budget: {{ campaign.budget }}</p>
+    <p>Status: {{ campaign.status }}</p>
+    <p>Visibility: {{ campaign.visibility }}</p>
+    <p>Start Date: {{ campaign.start_date }}</p>
+    <p>End Date: {{ campaign.end_date }}</p>
+    <p>Goal: {{ campaign.goal }}</p>
+    <p>Flagged: {{ 'Yes' if campaign.is_flagged else 'No' }}</p>
+
+    <h2>Ad Requests</h2>
+    {% if adrequests %}
+        <ul>
+            {% for ad in adrequests %}
+                <li>
+                    <h3>{{ ad.ad_name }}</h3>
+                    <p>Description: {{ ad.ad_description }}</p>
+                    <p>Reach: {{ ad.reach }}</p>
+                    <p>Payment Amount: {{ ad.payment_amount }}</p>
+                    <p>Status: {{ ad.ad_status }}</p>
+                    <p>Rating: {{ ad.rating }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No ad requests found for this campaign.</p>
+    {% endif %}
+
+    <h2>Ratings</h2>
+    {% if ratings %}
+        <ul>
+            {% for rating in ratings %}
+                <li>
+                    <p>Rating: {{ rating.rating }}</p>
+                    <p>Review: {{ rating.review }}</p>
+                    <p>Timestamp: {{ rating.timestamp }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No ratings found for this campaign.</p>
+    {% endif %}
+
+</body>
+</html>

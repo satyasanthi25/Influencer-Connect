@@ -1,0 +1,33 @@
+<!-- sponsor_dashboard.html -->
+
+<div class="group">
+    <h1>Welcome, {{ sponsor.username }}</h1>
+    <style>
+        .group {
+            background: linear-gradient(to right, #ee9a46, #3bd5e6);
+            /* background-color: rgb(99, 250, 127); */
+          }
+        </style>
+    
+    
+    
+    
+    <h2>Search Results</h2>
+    {% if influencers %}
+        <ul>
+        {% for influencer in influencers %}
+            <li>
+                <h3>{{ influencer.username }}</h3>
+                <p><strong>Name:</strong> {{ influencer.name }}</p>
+                <p><strong>Niche:</strong> {{ influencer.niche }}</p>
+                <p><strong>Reach:</strong> {{ influencer.reach }}</p>
+                <p><strong>Platform Preferences:</strong> {{ influencer.platform_preferences }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No influencers found.</p>
+    {% endif %}
+
+    <a href="{{ url_for('sponsor_dashboard',sponsor_id=sponsor.id) }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>

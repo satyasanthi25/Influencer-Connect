@@ -1,0 +1,45 @@
+<style>
+  .navbar {
+      background-color: gray; 
+  } 
+  .navbar-brand, .nav-link {
+      color: #dc3545; 
+  }
+  .nav-link:hover {
+      background-color: #c585ac; 
+      border-radius: 5px;
+  }
+  .navbar-toggler {
+      border: none;
+  }
+</style>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/"><b>IESCP</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon">Influencer&Sponsor@Connect</span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav m-3">
+          {% if 'user_id' in session %}
+          <li class="nav-item">
+            <a class="nav-link"  href="{{ url_for('home') }}"><b>Home</b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  href="{{ url_for('profile') }}"><b>Profile</b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  href="{{ url_for('logout') }}"><b>Logout</b></a>
+          </li>
+
+        
+          {% else %}
+            <a class="nav-link" href="{{ url_for('home') }}"><b>Home</b></a>
+            <a class="nav-link" href="{{ url_for('login') }}"><b>Login</b></a> 
+            
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>

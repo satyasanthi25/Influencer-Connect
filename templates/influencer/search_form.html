@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Public Campaigns</title>
+</head>
+<body>
+    <h1>Search Public Campaigns</h1>
+    <form method="POST" action="{{ url_for('search_public_campaigns') }}">
+        <label for="search_term">Search Term:</label>
+        <input type="text" id="search_term" name="search_term">        
+        <button type="submit">Search</button>
+        <label for="search_category">Niche:</label>
+        <input type="text" id="search_category" name="search_category">
+        <button type="submit">Search</button>
+    </form>
+    <form action="{{ url_for('influencer_dashboard', influencer_id=influencer_id) }}" method="get">
+        <button type="submit" class="btn btn-outline-danger">
+            <i class="fas fa-backspace"></i> Clear
+        </button>
+    </form>
+</body>
+</html>

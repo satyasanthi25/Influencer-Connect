@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Influencer Registration
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="image-section"></div>
+        <div class="login-section">
+            <div class="login-form-container">
+                <form class="form" method="post">
+                    <h7>Influencer Registration Form</h7>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">User Name</label>
+                        <input type="text" class="form-control" name="username" required maxlength="20">
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" name="confirm_password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" maxlength="20" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="niche" class="form-label">Niche</label>
+                        <input type="text" class="form-control" name="niche" pattern="[A-Za-z\s]+" title="Niche must be alphabetic characters only" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reach" class="form-label">Reach</label>
+                        <input type="number" class="form-control" name="reach" min="0"  max="1000000" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Platform Preferences</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="youtube" name="platform" value="youtube">
+                            <label class="form-check-label" for="youtube">YouTube</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="instagram" name="platform" value="instagram">
+                            <label class="form-check-label" for="instagram">Instagram</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="twitter" name="platform" value="twitter">
+                            <label class="form-check-label" for="twitter">Twitter</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="other" name="platform" value="other">
+                            <label class="form-check-label" for="other">Other</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="role" class="form-label">Role</label>
+                        <select name="role" id="role" required class="form-control">
+                            <option value="influencer">Influencer</option>
+                        </select>
+                    </div>
+                    <div style="text-align:center;">
+                        <button type="submit" class="btn btn-primary">Register</button><br>
+                        Registered User? Click here to <a href="/login">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            max-width: 2500px;
+    
+        }
+
+        .image-section {
+            flex: 1;
+            background-image: url('/static/7.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .login-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: ##c2936c;
+        }
+
+        .login-form-container {
+            text-align: center;
+            padding: 100px;
+            background: #fd7e14;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form-container h1 {
+            margin-bottom: 10px;
+        }
+        .login-form-container .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+        }
+
+        .login-form-container .form .form-group {
+            margin-bottom: 5px;
+            width: 50%;
+        }
+
+        .login-form-container .form .form-group label {
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        .login-form-container .form .form-group input {
+            width: 70%;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        .login-form-container .form .form-group input[type="submit"] {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-form-container .form .form-group input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+   AdRequests of Campaign {{ campaign.name }}
+{% endblock %}   
+
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+
+{% block content %}
+   <h1 class="display-4">AdRequests of Campaign {{ campaign.name }}</h1>
+   <div class="heading">
+      <h2 class="text-muted">
+         Adrequests:
+      </h2>
+      <a href="{{ url_for('add_adrequest', campaign_id=campaign.id,sponsor_id=sponsor_id) }}" class="btn btn-success">
+         <i class="fa fa-plus" aria-hidden="true"></i>
+         Add
+      </a>
+   </div>
+   
+   <div class="card mb-4">
+      <div class="card-header">
+         <h2>Ad Requests</h2>
+      </div>
+      <table class="table">
+         <thead>
+            <tr>
+               <th scope="col">#</th>
+               <th scope="col">AdRequest Id</th>
+               <th scope="col">AdRequest Name</th>
+               <th scope="col">platform_preferences</th>
+               <th scope="col">Reach</th>
+               <th scope="col">Payment Amount</th>
+               <th scope="col">Status</th>
+               <th scope="col">Rating</th>
+               <th scope="col">Actions</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for adrequest in campaign.ad_requests %}
+            <tr>
+               <th scope="row">{{ loop.index }}</th>
+               <td>{{ adrequest.id }}</td>
+               <td>{{ adrequest.ad_name }}</td>
+               <td>{{ adrequest.platform_preferences }}</td>
+               <td>{{ adrequest.reach}}</td>               
+               <td>{{ adrequest.payment_amount }}</td>
+               <td>{{ adrequest.ad_status }}</td>
+               <td>{{ adrequest.rating }}</td>
+               <td>
+                 
+                  <a href="{{ url_for('edit_adrequest', id=adrequest.id) }}" class="btn btn-info">
+                     <i class="fa fa-check"></i>
+                     Edit
+                  </a>
+                  <a href="{{ url_for('delete_adrequest', id=adrequest.id) }}" class="btn btn-danger">
+                     <i class="fa fa-times"></i>
+                     Delete
+                  </a>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      <a href="{{ url_for('sponsor_dashboard',sponsor_id=campaign.sponsor_id,) }}">Back to Dashboard</a>
+
+   </div>   
+{% endblock %}
+{% block style %}
+    <style>
+        .heading{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa; /* Light background */
+            padding: 10px 20px; /* Padding around the heading */
+            border-bottom: 2px solid #e9ecef; /* Bottom border */
+            font-family: 'Arial', sans-serif; /* Font style */
+            font-size: 1.5em; /* Font size */
+            color: #343a40; /* Text color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .heading h1 {
+            margin: 0;
+            padding: 0;
+            font-weight: bold; /* Bold font for heading */
+        }
+
+        .heading button {
+            background-color: #007bff; /* Button background color */
+            color: white; /* Button text color */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Button padding */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        .heading button:hover {
+            background-color: #0056b3; /* Darker background on hover */
+        }
+    </style>
+{% endblock %}

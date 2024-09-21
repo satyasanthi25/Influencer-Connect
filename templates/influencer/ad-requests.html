@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Ad Requests for Influencer</h2>
+    {% if ad_requests %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Ad Name</th>
+                <th>Platform Preferences</th>
+                <th>Reach</th>
+                <th>Payment Amount</th>
+                <th>Status</th>
+                <th>Rating</th>
+                <th>Campaign</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in ad_requests %}
+            <tr>
+                <td>{{ request.ad_name }}</td>
+                <td>{{ request.platform_preferences }}</td>
+                <td>{{ request.reach }}</td>
+                <td>{{ request.payment_amount }}</td>
+                <td>{{ request.ad_status }}</td>
+                <td>{{ request.rating }}</td>
+                <td>{{ request.campaign.campaign_name }}</td>
+                <td>
+                    <form action="{{ url_for('accept_ad_request', request_id=request.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="status" value="accepted">
+                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                    </form>
+                    <form action="{{ url_for('reject_ad_request', request_id=request.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="status" value="rejected">
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#negotiateModal" data-request-id="{{ request.id }}" data-payment="{{ request.payment_amount }}">Negotiate</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No ad requests found for this influencer.</p>
+    {% endif %}
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E3A5C7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #FFDFD6;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Results for "{{ search_query }}":</h1>
+
+        <div class="section">
+            <h2>Sponsors:</h2>
+            <ul>
+                {% for sponsor in filtered_sponsors %}
+                    <li><strong>Name:</strong> {{ sponsor.username }}</li>
+                    <li><strong>Company:</strong> {{ sponsor.company }}</li>
+                    <li><strong>Industry:</strong> {{ sponsor.industry }}</li>
+                    <li><strong>Budget:</strong> {{ sponsor.budget }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Influencers:</h2>
+            <ul>
+                {% for influencer in filtered_influencers %}
+                    <li><strong>Name:</strong> {{ influencer.name }}</li>
+                    <li><strong>Niche:</strong> {{ influencer.niche }}</li>
+                    <li><strong>Reach:</strong> {{ influencer.reach }}</li>
+                    <li><strong>Platform Preferences:</strong> {{ influencer.platform_preferences }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Campaigns:</h2>
+            <ul>
+                {% for campaign in filtered_campaigns %}
+                    <li><strong>Name:</strong> {{ campaign.name }}</li>
+                    <li><strong>Description:</strong> {{ campaign.description }}</li>
+                    <li><strong>Category:</strong> {{ campaign.category }}</li>
+                    <li><strong>Budget:</strong> {{ campaign.budget }}</li>
+                    <li><strong>Status:</strong> {{ campaign.status }}</li>
+                    <li><strong>Visibility:</strong> {{ campaign.visibility }}</li>
+                    <li><strong>Start Date:</strong> {{ campaign.start_date }}</li>
+                    <li><strong>End Date:</strong> {{ campaign.end_date }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Ad Requests:</h2>
+            <ul>
+                {% for ad_request in filtered_adrequests %}
+                    <li><strong>Name:</strong> {{ ad_request.ad_name }}</li>
+                    <li><strong>Status:</strong> {{ ad_request.ad_status }}</li>
+                    <li><strong>Platform Preferences:</strong> {{ ad_request.platform_preferences }}</li>
+                    <li><strong>Reach:</strong> {{ ad_request.reach }}</li>
+                    <li><strong>Payment Amount:</strong> {{ ad_request.payment_amount }}</li>
+                    <li><strong>Rating:</strong> {{ ad_request.rating }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

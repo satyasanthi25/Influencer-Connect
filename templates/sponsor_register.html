@@ -1,0 +1,135 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Sponsor Registration Form
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="image-section"></div>
+    <div class="login-section">
+        <div class="login-form-container">
+            <h7>Influencer Engagement and Sponsorship Coordination Platform</h7>
+            <h5>Sponsor Registration Form</h5>
+            <form method="post" class="form">
+                <div class="form-group">
+                    <label for="username">UserName:</label>
+                    <input type="text" id="username" name="username" class="form-control" required maxlength="20">
+                    <small id="nameHelp" class="form-text text-muted">Name cannot be more than 20 characters.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" name="confirm_password" required>
+                </div>
+                <div class="form-group">
+                    <label for="industry" class="form-label">Industry</label>
+                    <input type="text" class="form-control" id="industry" name="industry" pattern="[A-Za-z\s]+" title="industry must be alphabetic characters only"  placeholder="Enter Industry">
+                </div>
+                <div class="form-group">
+                    <label for="company" class="form-label">Company/Individual</label>
+                    <input type="text" class="form-control" id="company" name="company" pattern="[A-Za-z\s]+" title="company must be alphabetic characters only"  placeholder="Enter company">
+                </div>
+                <div class="form-group">
+                    <label for="budget" class="form-label">Budget</label>
+                    <input type="number" class="form-control" id="budget" name="budget" min="100" max="100000" required>
+                </div>
+                <div class="form-group">
+                    <label for="role" class="form-label">Role</label>
+                    <select name="role" id="role" required class="form-control">
+                        <option value="sponsor">Sponsor</option>
+                    </select>
+                </div>
+                <div style="text-align:center;">
+                    <button type="submit" class="btn btn-primary">Register</button><br>
+                    Registered User? Click here to <a href="/login">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        height: 100%;
+    }
+
+    .container {
+        display: flex;
+        height: 100vh;
+        max-width: 2500px;
+
+    }
+
+    .image-section {
+        flex: 1;
+        background-image: url('/static/4.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .login-section {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: gray;
+    }
+
+    .login-form-container {
+        text-align: center;
+        padding: 50px;
+        background: gray;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .login-form-container h1 {
+        margin-bottom: 10px;
+    }
+
+    .login-form-container .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .login-form-container .form .form-group {
+        margin-bottom: 5px;
+        width: 100%;
+
+    }
+
+    .login-form-container .form .form-group label {
+        display: block;
+        margin-bottom: 1px;
+    }
+
+    .login-form-container .form .form-group input {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+
+    }
+
+    .login-form-container .form .form-group input[type="submit"] {
+        background-color: #b6e7c1;
+        color: white;
+        border: none;
+        cursor: pointer;
+
+    }
+
+    .login-form-container .form .form-group input[type="submit"]:hover {
+        background-color: #555;
+
+    }
+</style>
+{% endblock %}

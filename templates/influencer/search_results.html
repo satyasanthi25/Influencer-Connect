@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(to right, #ee9a46, #3bd5e6);
+            color: #333;
+        }
+        
+       
+        .campaigns-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="campaigns-list">
+
+    <h2>Search Results for Public Campaigns</h2>
+    {% if campaigns %}
+        <ul>
+        {% for campaign in campaigns %}
+            <li>
+                <h3>{{ campaign.name }}</h3>
+                <p><strong>Description:</strong> {{ campaign.description }}</p>
+                <p><strong>Category:</strong> {{ campaign.category }}</p>
+                <p><strong>Budget:</strong> {{ campaign.budget }}</p>
+                <p><strong>Status:</strong> {{ campaign.status }}</p>
+                <p><strong>Visibility:</strong> {{ campaign.visibility }}</p>
+                <p><strong>Start Date:</strong> {{ campaign.start_date }}</p>
+                <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
+                <p><strong>Goal:</strong> {{ campaign.goal }}</p>
+                
+            </li>
+            
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No campaigns found.</p>
+    {% endif %}
+        
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+{% extends "layout.html" %}
+{% block title %}
+    Influencer Dashboard
+{% endblock %}
+
+<link rel="stylesheet" href="/static/style1.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+{% block content %}
+    {% include "influencer/search_form.html" with context %}
+    <hr>
+    <h1 style="text-align: center;">Welcome to {{ name }}</h1>
+
+    <div class="campaigns-list">
+        {% for campaign in campaigns %}
+            <h5>Campaign Name: {{ campaign.name }}</h5>
+            <div class="adrequests">
+                {% for adrequest in campaign.ad_requests %}
+                    {% if adrequest.influencer_id=='' %}
+                    <div class="card mb-3" style="width: 18rem;">
+                        <img src="https://picsum.photos/50/50" class="card-img-top" alt="{{ adrequest.ad_name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ adrequest.ad_name }}</h5>
+                            <p class="card-text">
+                                <strong>Platform Preferences:</strong> {{ adrequest.platform_preferences }}<br>
+                                <strong>Reach:</strong> {{ adrequest.reach }}<br>
+                                <strong>Payment Amount:</strong> &#8377;{{ adrequest.payment_amount }}<br>
+                                <strong>Rating:</strong> {{ adrequest.rating }}<br>
+                                <strong>Status:</strong> {{ adrequest.ad_status }}
+                            </p>
+                            <div class="card-footer">
+                                <form action="{{ url_for('add_to_request', campaign_id=adrequest.campaign_id,adrequest_id= adrequest.id) }}" method="post">
+                                    <button type="submit" class="btn btn-success">Add To Request</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}   
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <div>
+        <h2>Campaign Requests</h2>
+        <div class="card mb-4">
+            <div class="card-header">
+                Influencer Campaign Requests
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Campaign Name</th>
+                            <th scope="col">Ad Request Id</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in active_requests %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ request.campaign.name }}</td>
+                                <td>{{ request.ad_request_id }}</td>
+                                <td>{{ request.request_status }}</td>
+                            </tr>
+                        {% else %}
+                            <tr><td colspan="5">No Campaign Requests</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>                
+    </div>    
+
+    <div class="container mt-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                Campaigns
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Campaign Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for campaign in campaigns %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ campaign.id }}</td>
+                                <td>{{ campaign.name }}</td>
+                                <td>{{ campaign.description }}</td>
+                                <td>
+                                    <a href="{{ url_for('inf_view_campaign', campaign_id=campaign.id) }}" class="btn btn-warning btn-sm">View</a>
+                                    {% if campaign.ad_requests|length > 0  %}
+                                    {%for re in active_requests %}
+                                        {% if re.request_status == 'pending' and re.campaign_id == campaign.id %}
+                                    <form action="{{ url_for('request_campaign', influencer_id=influencer_id, ad_request_id=campaign.ad_requests[0].id) }}" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-primary btn-sm">Request</button>
+                                    </form>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <span>No Ad Requests Available</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+        <div>
+           <h2>Active Requests</h2>
+           <div class="card mb-4">
+            <div class="card-header">
+                Ad Requests
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Ad Request Name</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Payment Amount</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ad in ad_requests %}
+                        {% if ad.influencer_id == influencer_id %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ ad.id }}</td>
+                                <td>{{ ad.ad_name }}</td>
+                                <td>{{ ad.rating }}</td>
+                                <td>{{ ad.payment_amount }}</td>
+                                <td>{{ ad.ad_status }}</td>
+                                <td>
+
+                                    <a href="{{ url_for('inf_adrequest_view', adrequest_id=ad.id) }}" class="btn btn-warning btn-sm">View</a>
+                                    {% if ad.ad_status=='accepted' %}
+                                    <form action="{{ url_for('reject_request',adrequest_id=ad.id)}}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="status" value="rejected">
+                                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                    </form>
+                                    {% else %}
+                                    <form action="{{ url_for('accept_request',adrequest_id=ad.id)}}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="status" value="accepted">
+                                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            NO Adrequests
+                        {% endif %}   
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+  
+        </div>
+    </div>
+
+    </div>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(to right, #ee9a46, #3bd5e6);
+            color: #333;
+        }
+        .adrequests {
+            margin-bottom: 20px;
+        }
+        .card {
+            margin: 10px;
+        }
+        .table {
+            width: 100%;
+        }
+        .table thead {
+            background-color: #f8f9fa;
+        }
+        .table th, .table td {
+            padding: 0.75rem;
+            vertical-align: middle;
+        }
+        .btn-sm {
+            margin-right: 5px;
+        }
+        
+        .campaigns-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .adrequests {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            margin: 10px;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Admin Dashboard - Influencers
+{% endblock %}
+
+{% block content %}
+<h2>Influencers</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Social Media Handle</th>
+            <th>Reach</th>
+            <th>Niche</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for influencer in influencers %}
+        <tr>
+            <td>{{ influencer.id }}</td>
+            <td>{{ influencer.name }}</td>
+            <td>{{ influencer.platform_preferences }}</td>
+            <td>{{ influencer.reach}}</td>
+            <td>{{ influencer.niche}}</td>
+            <td>
+                <a href="{{ url_for('admin_view_influencer', id=influencer.id) }}" class="btn btn-warning btn-sm">View</a>
+                <form action="{{ url_for('user_flag', user_id=influencer.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Flag</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

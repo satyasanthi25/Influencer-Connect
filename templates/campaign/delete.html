@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete Campaign
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+        .display-1 {
+            color: #343a40;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .card {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFDODO;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .form button {
+            width: 48%;
+            margin-top: 10px;
+        }
+        .form .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            float: right;
+        }
+        .form .btn-danger:hover {
+            background-color: #c82333;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-1">Delete Campaign</h1>
+    <div class="card">
+        <p>Are you sure you want to delete the campaign "{{ campaign.name }}"?</p>
+        <form action="{{ url_for('delete_campaign', id=campaign.id) }}" method="post">
+            <div class="form-group d-flex justify-content-between">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+                <a href="{{ url_for('sponsor_dashboard',sponsor_id=campaign.sponsor_id) }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

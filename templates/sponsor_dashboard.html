@@ -1,0 +1,193 @@
+{% extends 'layout.html' %}
+{% block title %}
+   Sponsor Dashboard
+{% endblock %}
+{% block style %}
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+   <form class="d-flex" action="{{ url_for('search', sponsor_id=sponsor.id) }}" method="POST">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_term" required>
+      <button class="btn btn-outline-primary me-2" name="search_influencer" type="submit">Search Influencer</button>
+      <button class="btn btn-outline-secondary" name="search_niche" type="submit">Search Niche</button>
+    
+   </form>
+
+
+   <h1 class="display-1 p-3 mb-2 bg-warning-subtle text-warning-emphasis">Sponsor Dashboard</h1>
+   <a href="{{ url_for('add_campaign', id=sponsor.id) }}" class="btn btn-success">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Add Campaign
+   </a>
+   <div class="p-3 mb-2 bg-primary-subtle text-primary-emphasis">
+      <h2>Campaign Types by Industry Niche</h2>
+      {% for niche, campaigns in campaigns_by_niche.items() %}
+         <ul class="list-unstyled">
+               {% for campaign in campaigns %}
+                  <li class="media mb-4">
+                      <img src="https://picsum.photos/200/200?random={{ loop.index }}" class="mr-3" alt="{{ campaign.name }}" style="width: 64px; height: 64px;">
+                      <div class="media-body">
+                          <h5 class="mt-0 mb-1">{{ campaign.name }}</h5>
+                          Status: {{ campaign.status }} - Niche: {{ campaign.category }}
+                      </div>
+                  </li>
+               {% endfor %}
+         </ul>
+      {% endfor %}
+   </div>
+
+   {% if active_campaigns|length == 0 %}
+      <h4 class="display-4">No Active Campaigns</h4>
+   {% else %}
+      <div class="card mb-4 p-3 bg-warning-subtle text-warning-emphasis">
+         <div class="card-header">
+            <h2>Active Campaigns</h2>
+         </div>
+         <table class="table">
+            <thead>
+               <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Campaign Id</th>
+                  <th scope="col">Campaign Name</th>
+                  <th scope="col">No.of AdRequests</th>
+                  <th scope="col">Actions</th>
+               </tr>
+            </thead>
+            <tbody>
+               {% for campaign in active_campaigns %}
+               <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{ campaign.id }}</td>
+                  <td>{{ campaign.name }}</td>
+                  <td>{{ campaign.ad_requests|length }}</td>
+                  <td>
+                     <a href="{{ url_for('view_campaign', campaign_id=campaign.id) }}" class="btn btn-info">
+                        <i class="fa fa-eye"></i>
+                        View
+                     </a>
+                     <a href="{{ url_for('edit_campaign', id=campaign.id) }}" class="btn btn-warning">
+                        <i class="fa fa-edit"></i>
+                        Edit
+                     </a>
+                     <a href="{{ url_for('delete_campaign', id=campaign.id) }}" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                        Delete
+                     </a>
+                     <a href="{{url_for('adrequest_show_camp', id=campaign.id,sponsor_id=sponsor_id) }}" class="btn" style="background-color: #d63384; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 12px;">
+                        <i class="fa fa-eye"></i> Show AdRequests
+                     </a>
+                  </td>
+               </tr>
+               {% endfor %}
+            </tbody>
+         </table>
+      </div>
+   {% endif %}
+   <h2>Active Ad Requests</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Request ID</th>
+                <th>Campaign Name</th>
+                <th>Influencer Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in ad_requests %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ request.id }}</td>
+                <td>{{ request.campaign.name }}</td>
+                <td>{{ request.influencer.name }}</td>
+                <td>{{ request.ad_status }}</td>
+                <td>
+                    <form action="{{ url_for('accept_ad_request', request_id=request.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-success">Accept</button>
+                    </form>
+                    <form action="{{ url_for('reject_ad_request', request_id=request.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+   
+   <h2>Ad Requests</h2>
+   <div class="list">   
+      {% for adrequest in ad_requests %}
+         <div class="card mb-3" style="width: 18rem;">
+            <img src="https://picsum.photos/50/50" class="card-img-top" alt="{{ adrequest.ad_name }}">
+            <div class="card-body">
+               <h5 class="card-title">{{ adrequest.ad_name }}</h5>
+               <p class="card-text">
+                     <strong>Influencer Name:</strong> {{ adrequest.influencer.name }}<br>
+
+                     <strong>Influencer Id:</strong> {{ adrequest.influencer_id }}<br>
+                     <strong>Platform Preferences:</strong> {{ adrequest.platform_preferences }}<br>
+                     <strong>Reach:</strong> {{ adrequest.reach }}<br>
+                     <strong>Payment Amount:</strong> &#8377;{{ adrequest.payment_amount }}<br>
+                     <strong>Rating:</strong> {{ adrequest.rating }}<br>
+                     <strong>Status:</strong> {{ adrequest.ad_status }}
+                     
+               </p>
+               
+               <div class="container">
+                  {% if adrequest.influencer_id == '' %}
+                      <div class="msg not-assigned">
+                          Influencer not Assigned
+                      </div>
+                  {% elif adrequest.ad_status == 'accepted' and adrequest.influencer_id %}
+                      <div class="msg accepted">
+                          Accepted Adrequest and Influencer is assigned
+                      </div>
+                  {% elif adrequest.ad_status == 'rejected' and adrequest.influencer_id %}
+                      <div class="msg rejected">
+                          Rejected Adrequest and Influencer is assigned
+                      </div>
+                  {% elif adrequest.ad_status == 'pending' and adrequest.influencer_id %}
+                      <div class="msg pending">
+                          Adrequest is pending and Influencer is assigned
+                      </div>
+                  {% endif %}
+              </div>
+            
+         </div>
+      {% endfor %}
+      <style>
+         .list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+         }
+         
+         .card {
+            margin: 10px;
+         }
+         .accepted {
+            background-color: #dff0d8; 
+            color: #3c763d; 
+        }
+        .rejected {
+            background-color: #f2dede; 
+            color: #a94442; 
+        }
+        .pending {
+            background-color: #fcf8e3; 
+            color: #8a6d3b; 
+        }
+        .not-assigned {
+            background-color: #d9edf7; 
+            color: #31708f; 
+        }
+     </style>
+</div>
+{% endblock %}

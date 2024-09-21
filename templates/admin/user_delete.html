@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}Delete User{% endblock %}
+
+{% block content %}
+    <h1>Delete {{ user.role.capitalize() }}</h1>
+    <p>Are you sure you want to delete the {{ user.role }} '{{ user.username }}'?</p>
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{{ url_for('admin_home') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block title %}
+   Profile Page
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="profile-header text-center mb-4">
+        <div class="profile-pic mb-3">
+            <img src="https://api.dicebear.com/6.x/lorelei/svg?seed={{user.username}}" width=100 alt="">
+        </div>
+        <h2>Welcome {{user.username}}</h2>
+        <h4 class="text-muted">Hello@{{user.username}}</h4>
+    </div>
+
+    <form action="" method="post" class="form m-3" enctype="multipart/form-data"> 
+        <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" value="{{user.username}}" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="cpassword" class="form-label">Current Password</label>
+            <input type="password" name="cpassword" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="password" class="form-label">New Password</label>
+            <input type="password" name="password" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" name="name" value="{{user.name}}" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="profile_pic" class="form-label">Profile Picture</label>
+            <input type="file" name="profile_pic" class="form-control-file">
+        </div>
+        <div class="buttons mt-3">
+            <a href="{{url_for('logout')}}" class="btn btn-danger mr-2">Logout</a>
+            <input type="submit" value="Update" class="btn btn-primary">
+        </div>
+    </form>    
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+    .container {
+        max-width: 600px;
+    }
+    .profile-header {
+        background: linear-gradient(135deg, #6b9bff, #b9d2ff);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .profile-pic {
+        width: 100px;
+        height: 100px;
+        border: 3px solid white;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+    .form {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-label {
+        font-weight: bold;
+    }
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+{% endblock %}

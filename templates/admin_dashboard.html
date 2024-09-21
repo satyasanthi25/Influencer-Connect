@@ -1,0 +1,266 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Admin Dashboard
+{% endblock %}
+
+{% block content %}
+    <div class="sear">
+        <form method="GET" action="{{ url_for('search_results') }}">
+            <input type="text" name="search_query" placeholder="Search by name...">
+            <button type="submit">Search</button>
+        </form>
+        
+    </div>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .btn-view { background-color: #f5c06a; }
+        .btn-flag { background-color: #f78b8b; }
+        .btn-unflag { background-color: #dc3545; }
+        .chart-container {
+            width: 600px;
+            height: 400px;
+            margin: auto;
+            margin-bottom: 50px;
+        }
+        .card {
+            background-color: #ffcccb;
+        }
+        .list-group {
+            background-color: #FFDoDo;
+        }
+    </style>
+
+  <div class="container mt-4 p-3 bg-info-subtle text-info-emphasis">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Admin's Dashboard</h1>
+      
+    </div>
+    <!--<nav class="nav nav-pills nav-fill mb-2">
+      <b><a class="nav-item nav-link" href="/admin/sponsors">Sponsors</a></b>
+      <b><a class="nav-item nav-link" href="/admin/influencers">Influencers</a></b>
+      <b><a class="nav-item nav-link" href="/admin/adrequests">Ad Requests</a></b>
+    </nav---->
+    
+    <div class="container">
+      <div class="row">
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Total Adrequests</h5>
+                      <p class="card-text">{{ total_ad_requests }}</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Total Campaigns</h5>
+                      <p class="card-text">{{ total_campaigns }}</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Active Users</h5>
+                      <p class="card-text">{{ active_users }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row mt-4">
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Public Campaigns</h5>
+                      <p class="card-text">{{ public_campaigns }}</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Private Campaigns</h5>
+                      <p class="card-text">{{ private_campaigns }}</p>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Flagged Sponsors</h5>
+                      <p class="card-text"> {{ flagged_counts.sponsors }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="row mt-4">
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Flagged Influencers</h5>
+                      <p class="card-text"> {{ flagged_counts.influencers }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="list-group">
+        <h2> Sponsors:</h2>
+        {% for item in sponsors %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Sponsor Name: {{ item.username }} | Details: {{ item.company }}</span>
+            <div>
+                <form action="{{ url_for('admin_view_sponsor', id=item.id) }}" method="get" style="display:inline;">
+                    <button type="submit" class="btn btn-view btn-sm">View</button>
+                </form>
+                {% if item.id in flagged_items['sponsor'] %}
+                    <form action="{{ url_for('unflag_item', item_type='sponsor', item_id=item.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-unflag btn-sm">Unflag</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('flag_item', item_type='sponsor', item_id=item.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-flag btn-sm">Flag</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <h2> Adrequests:</h2>
+        {% for item in adrequests %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>Ad Request: {{ item.ad_name }} | Status: {{ item.ad_status }} | SocialMedia:{{ item.platform_preferences }}</span>
+                <div>
+                    <form action="{{ url_for('admin_view_adrequests', id=item.id) }}" method="get" style="display:inline;">
+                        <button type="submit" class="btn btn-view btn-sm">View</button>
+                    </form>
+                    {% if item.id in flagged_items['ad_request'] %}
+                        <form action="{{ url_for('unflag_item', item_type='ad_request', item_id=item.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-unflag btn-sm">Unflag</button>
+                        </form>
+                    {% else %}
+                       
+                        <form action="{{ url_for('flag_item', item_type='ad_request', item_id=item.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-flag btn-sm">Flag</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <h2> Campaigns:</h2>
+        {% for item in campaigns %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Campaign Name: {{ item.name }} | Description: {{ item.description }}</span>
+            <div>
+                <form action="{{ url_for('admin_view_campaign', id=item.id) }}" method="get" style="display:inline;">
+                    <button type="submit" class="btn btn-view btn-sm">View</button>
+                </form>
+                {% if item.id in flagged_items['campaign'] %}
+                    <form action="{{ url_for('unflag_item', item_type='campaign', item_id=item.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-unflag btn-sm">Unflag</button>
+                    </form>
+                {% else %}
+                    <form action="{{ url_for('flag_item', item_type='campaign', item_id=item.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-flag btn-sm">Flag</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+
+        <h2> Influencers:</h2>
+        {% for item in influencers %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Inf. Name: {{ item.name }} | Followers: {{ item.reach }}</span>
+            <div>
+                <form action="{{ url_for('admin_view_influencer', id=item.id) }}" method="get" style="display:inline;">
+                    <button type="submit" class="btn btn-view btn-sm">View</button>
+                </form>    
+                {% if item.id in flagged_items['influencers'] %}  
+                <form action="{{ url_for('unflag_item', item_type='campaign', item_id=item.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-unflag btn-sm">Unflag</button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('flag_item', item_type='influencer', item_id=item.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-flag btn-sm">Flag</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% include 'admin/user_list.html' %}
+    <hr>
+    <h2 class="display-4">Summary:</h2>
+    <div class="chart-container">
+        <canvas id="barChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="polarChart"></canvas>
+    </div>
+{% block script %}
+
+    <script>
+        // Data for Bar Chart
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const barChartData = {{ bar_chart_data | tojson }};
+        
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: barChartData.labels,
+                datasets: [{
+                    label: 'Number of Ad Requests',
+                    data: barChartData.values,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    const ctxPolar = document.getElementById('polarChart').getContext('2d');
+    const polarChartData = {{ polar_chart_data | tojson }};
+    
+        new Chart(ctxPolar, {
+            type: 'polarArea',
+            data: {
+                labels: polarChartData.labels,
+                datasets: [{
+                    label: 'Campaign Ad Requests',
+                    data: polarChartData.values,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });      
+    </script>
+{% endblock %}
+{% endblock %}

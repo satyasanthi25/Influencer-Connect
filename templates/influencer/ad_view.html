@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Request Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Ad Request Details</h1>
+        <div class="ad-request-details">
+            <p><strong>Ad Name:</strong> {{ adrequest.ad_name }}</p>
+            <p><strong>Platform Preferences:</strong> {{ adrequest.platform_preferences }}</p>
+            <p><strong>Reach:</strong> {{ adrequest.reach }}</p>
+            <p><strong>Payment Amount:</strong> {{ adrequest.payment_amount }}</p>
+            <p><strong>Ad Status:</strong> {{ adrequest.ad_status }}</p>
+            <p><strong>Rating:</strong> {{ adrequest.rating }}</p>
+        </div>
+        <a href="{{ url_for('influencer_dashboard',influencer_id=influencer_id) }}" class="btn btn-secondary">Back</a>
+    </div>
+</body>
+</html>
